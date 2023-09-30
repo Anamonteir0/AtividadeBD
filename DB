@@ -1,0 +1,68 @@
+Desenvolva um banco de dados e relacione tabelas através de chaves estrangeiras ou nomes de colunas iguais. Siga as instruções:
+crie uma base de dados; 
+crie tabelas nessa base de dados;
+em cada tabela, adicione atributos;
+insira dados em cada tabela;
+utilize os comandos Joins para realizar consultas nas tabelas. 
+
+CREATE DATABASE ESCOLA;
+-- Use o banco de dados ESCOLA
+USE ESCOLA;
+
+-- Crie a tabela ALUNOS
+CREATE TABLE ALUNOS (
+    aluno_id INT PRIMARY KEY,
+    nome VARCHAR(255),
+    idade INT
+);
+
+-- Crie a tabela CURSOS
+CREATE TABLE CURSOS (
+    curso_id INT PRIMARY KEY,
+    nome VARCHAR(255),
+    descricao TEXT
+);
+
+-- Crie a tabela MATRICULAS para relacionar alunos a cursos
+CREATE TABLE MATRICULAS (
+    matricula_id INT PRIMARY KEY,
+    aluno_id INT,
+    curso_id INT,
+    FOREIGN KEY (aluno_id) REFERENCES ALUNOS(aluno_id),
+    FOREIGN KEY (curso_id) REFERENCES CURSOS(curso_id)
+);
+
+-- Insira dados na tabela ALUNOS
+INSERT INTO ALUNOS (aluno_id, nome, idade)
+VALUES
+    (1, 'João', 20),
+    (2, 'Maria', 22),
+    (3, 'Pedro', 19);
+
+-- Insira dados na tabela CURSOS
+INSERT INTO CURSOS (curso_id, nome, descricao)
+VALUES
+    (101, 'Matemática', 'Curso de Matemática Avançada'),
+    (102, 'História', 'Curso de História Antiga'),
+    (103, 'Inglês', 'Curso de Inglês Intermediário');
+
+-- Insira dados na tabela MATRICULAS para relacionar alunos a cursos
+INSERT INTO MATRICULAS (matricula_id, aluno_id, curso_id)
+VALUES
+    (1, 1, 101),
+    (2, 2, 102),
+    (3, 3, 103),
+    (4, 1, 102),
+    (5, 2, 101);
+
+-- Listar os alunos e os cursos em que estão matriculados
+SELECT ALUNOS.nome, CURSOS.nome AS curso
+FROM ALUNOS
+JOIN MATRICULAS ON ALUNOS.aluno_id = MATRICULAS.aluno_id
+JOIN CURSOS ON MATRICULAS.curso_id = CURSOS.curso_id;
+
+-- Listar todos os cursos com o número de alunos matriculados
+SELECT CURSOS.nome, COUNT(MATRICULAS.aluno_id) AS num_alunos
+FROM CURSOS
+LEFT JOIN MATRICULAS ON CURSOS.curso_id = MATRICULAS.curso_id
+GROUP BY CURSOS.nome;
