@@ -1,0 +1,23 @@
+INSTRUÇÕES DO PROJETO
+De acordo com os comandos aprendidos, programe códigos SQL para criar um banco de dados chamado ESCOLA e deixe-o pronto para o uso. Depois, pesquise qual é o comando utilizado para inserir uma tabela no banco de dados e siga as instruções:
+
+1. crie uma tabela chamada ALUNO;  
+2. defina os atributos da tabela;
+3. adicione a chave primária de nome ID (identificador);
+4. adicione um atributo nome do tipo varchar;
+5. adicione um atributo e-mail do tipo varchar;
+6. adicione um atributo endereço do tipo varchar.
+
+-- Criar o banco de dados ESCOLA
+CREATE DATABASE ESCOLA;
+
+-- Usar o banco de dados ESCOLA
+USE ESCOLA;
+
+-- Criar a tabela ALUNO
+CREATE TABLE ALUNO (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(255),
+    email VARCHAR(255),
+    endereco VARCHAR(255)
+);
