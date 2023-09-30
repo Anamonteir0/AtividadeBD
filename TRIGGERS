@@ -1,0 +1,38 @@
+Crie um banco de dados, adicione tabelas e determine quais são os atributos de cada uma. Em seguida, execute um trigger que se relacione com algum comando, como insert, select, delete ou update.
+CREATE DATABASE ESCOLA;
+USE ESCOLA;
+-- Crie a tabela ALUNOS
+CREATE TABLE ALUNOS (
+    aluno_id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(255),
+    idade INT
+);
+
+-- Crie a tabela NOTAS
+CREATE TABLE NOTAS (
+    nota_id INT PRIMARY KEY AUTO_INCREMENT,
+    aluno_id INT,
+    disciplina VARCHAR(255),
+    nota FLOAT,
+    FOREIGN KEY (aluno_id) REFERENCES ALUNOS(aluno_id)
+);
+DELIMITER //
+CREATE TRIGGER calcular_media
+AFTER INSERT ON NOTAS
+FOR EACH ROW
+BEGIN
+    DECLARE media FLOAT;
+    SELECT AVG(nota) INTO media FROM NOTAS WHERE aluno_id = NEW.aluno_id;
+    UPDATE ALUNOS SET idade = media WHERE aluno_id = NEW.aluno_id;
+END;
+//
+DELIMITER ;
+-- Inserir alguns alunos
+INSERT INTO ALUNOS (nome, idade) VALUES ('João', 20);
+INSERT INTO ALUNOS (nome, idade) VALUES ('Maria', 22);
+
+-- Inserir algumas notas para os alunos
+INSERT INTO NOTAS (aluno_id, disciplina, nota) VALUES (1, 'Matemática', 8.5);
+INSERT INTO NOTAS (aluno_id, disciplina, nota) VALUES (1, 'História', 7.0);
+INSERT INTO NOTAS (aluno_id, disciplina, nota) VALUES (2, 'Matemática', 9.0);
+INSERT INTO NOTAS (aluno_id, disciplina, nota) VALUES (2, 'História', 8.0);
