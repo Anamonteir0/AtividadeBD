@@ -1,0 +1,25 @@
+DELIMITER //
+
+CREATE PROCEDURE LevantamentoDiarioProdutos()
+BEGIN
+    -- Declare variáveis para a data atual e a data anterior
+    DECLARE data_atual DATE;
+    DECLARE data_anterior DATE;
+
+    -- Inicialize a data atual com a data atual
+    SET data_atual = CURDATE();
+
+    -- Subtrai um dia da data atual para obter a data anterior
+    SET data_anterior = DATE_SUB(data_atual, INTERVAL 1 DAY);
+
+    -- Consulta para contar a quantidade de produtos comprados por dia
+    SELECT
+        data_anterior AS Data,
+        COUNT(*) AS QuantidadeDeProdutosComprados
+    FROM
+        tabela_de_vendas
+    WHERE
+        data_venda BETWEEN data_anterior AND data_atual;
+END //
+
+DELIMITER ;
